@@ -1,0 +1,45 @@
+service: wellness
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-2
+  environment:
+    PHONE_NUMBERS_TABLE_NAME: ${self:service}-${opt:stage, self:provider.stage}-phone-numbers
+    KEY: ${file(secrets.yml):key}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:GetItem
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PHONE_NUMBERS_TABLE_NAME}"
+
+functions:
+  checkCode: 
+    handler: handler.checkCode
+    events: 
+      - http: 
+          method: post
+          path: /code
+  createSubscriber:
+    handler: handler.createSubscriber
+    events: 
+      - http: 
+          method: post
+          path: /subscribers
+
+resources:
+  Resources:
+    phoneNumbersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.PHONE_NUMBERS_TABLE_NAME}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
