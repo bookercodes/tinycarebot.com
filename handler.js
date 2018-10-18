@@ -1,7 +1,8 @@
 const { Client } = require('authy-client')
-const authy = new Client({ key: process.env.KEY })
+const authy = new Client({ key: process.env.AUTHY_KEY })
 const AWS = require('aws-sdk')
 const dynamoDb = new AWS.DynamoDB.DocumentClient()
+const twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
 
 module.exports.createSubscriber = async (event, context) => {
   try {
@@ -36,7 +37,7 @@ module.exports.createSubscriber = async (event, context) => {
   }
 }
 
-module.exports.checkCode = async (event, context, done) => {
+module.exports.checkCode = async (event, context) => {
   try {
     const { phone, countryCode, token } = JSON.parse(event.body)
     await authy.verifyPhone({ countryCode, phone, token })
@@ -58,7 +59,35 @@ module.exports.checkCode = async (event, context, done) => {
     console.error('error', error)
     return {
       headers: {},
-      statusCode: 500
+      statusCode: 500,
+      body: ''
+    }
+  }
+}
+
+module.exports.sendSms = async (event, context) => {
+  try {
+    const data = await dynamoDb.scan({
+      TableName: process.env.PHONE_NUMBERS_TABLE_NAME
+    }).promise()
+    const numbers = data.Items.map(item => `+${item.countryCode} ${item.phone}`)
+    const promises = numbers.map(number => twilio.messages.create({
+      to: number,
+      from: process.env.TWILIO_MESSAGING_SERVICE_SID,
+      body: 'this is a test message. more to come'
+    }))
+    await Promise.all(promises)
+    return {
+      headers: {},
+      statusCode: 200,
+      body: 'success i guess'
+    }
+  } catch (error) {
+    console.error('error', error)
+    return {
+      headers: {},
+      statusCode: 500,
+      body: ''
     }
   }
 }

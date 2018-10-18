@@ -6,15 +6,23 @@ provider:
   region: eu-west-2
   environment:
     PHONE_NUMBERS_TABLE_NAME: ${self:service}-${opt:stage, self:provider.stage}-phone-numbers
-    KEY: ${file(secrets.yml):key}
+    AUTHY_KEY: ${file(secrets.yml):authyKey}
+    TWILIO_ACCOUNT_SID: ${file(secrets.yml):twilioAccountSid}
+    TWILIO_AUTH_TOKEN: ${file(secrets.yml):twilioAuthToken}
+    TWILIO_MESSAGING_SERVICE_SID: ${file(secrets.yml):twilioMessagingServiceSid}
   iamRoleStatements:
     - Effect: Allow
       Action:
         - dynamodb:PutItem
         - dynamodb:GetItem
+        - dynamodb:Scan
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PHONE_NUMBERS_TABLE_NAME}"
 
 functions:
+  sendSms:
+    handler: handler.sendSms
+    events:
+      - schedule: rate(1 minute)
   checkCode: 
     handler: handler.checkCode
     events: 
