@@ -94,3 +94,12 @@ module.exports.sendSms = async (event, context) => {
     }
   }
 }
+
+module.exports.test = async (event, context) => {
+  console.log(process.env.SUPERMAN_TOKEN)
+  return {
+    headers: {},
+    statusCode: 200,
+    body: JSON.stringify(process.env)
+  }
+}

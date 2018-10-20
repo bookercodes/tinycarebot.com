@@ -6,10 +6,10 @@ provider:
   region: eu-west-2
   environment:
     PHONE_NUMBERS_TABLE_NAME: ${self:service}-${opt:stage, self:provider.stage}-phone-numbers
-    AUTHY_KEY: ${file(secrets.yml):authyKey}
-    TWILIO_ACCOUNT_SID: ${file(secrets.yml):twilioAccountSid}
-    TWILIO_AUTH_TOKEN: ${file(secrets.yml):twilioAuthToken}
-    TWILIO_MESSAGING_SERVICE_SID: ${file(secrets.yml):twilioMessagingServiceSid}
+    AUTHY_KEY: ${ssm:/${self:provider.stage}/authyKey}
+    TWILIO_ACCOUNT_SID: ${ssm:/${self:provider.stage}/twilioAccountSid}
+    TWILIO_AUTH_TOKEN: ${ssm:/${self:provider.stage}/twilioAuthToken}
+    TWILIO_MESSAGING_SERVICE_SID: ${ssm:/${self:provider.stage}/twilioMessagingServiceSid}  
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -19,11 +19,14 @@ provider:
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PHONE_NUMBERS_TABLE_NAME}"
 
 functions:
+  test:
+    handler: handler.test
   sendSms:
     handler: handler.sendSms
     events:
       - schedule:
           rate: rate(1 minute)
+          enabled: false
   checkCode: 
     handler: handler.checkCode
     events: 
