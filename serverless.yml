@@ -22,7 +22,8 @@ functions:
   sendSms:
     handler: handler.sendSms
     events:
-      - schedule: rate(1 minute)
+      - schedule:
+          rate: rate(1 minute)
   checkCode: 
     handler: handler.checkCode
     events: 

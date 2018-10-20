@@ -1,3 +1,4 @@
+const { sample } = require('lodash')
 const { Client } = require('authy-client')
 const authy = new Client({ key: process.env.AUTHY_KEY })
 const AWS = require('aws-sdk')
@@ -71,10 +72,12 @@ module.exports.sendSms = async (event, context) => {
       TableName: process.env.PHONE_NUMBERS_TABLE_NAME
     }).promise()
     const numbers = data.Items.map(item => `+${item.countryCode} ${item.phone}`)
+    const messages = require('./messages')
+    const body = sample(messages)
     const promises = numbers.map(number => twilio.messages.create({
       to: number,
       from: process.env.TWILIO_MESSAGING_SERVICE_SID,
-      body: 'this is a test message. more to come'
+      body
     }))
     await Promise.all(promises)
     return {
