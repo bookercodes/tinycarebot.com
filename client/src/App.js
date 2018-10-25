@@ -1,50 +1,100 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 
 class App extends Component {
+  state = {
+    phone: ""
+  };
   render() {
     return (
-      <div style={{
-maxWidth: 1000,
-display: 'grid',
-margin: '0 auto',
-gridGap: 10,
-padding: 30,
-gridTemplateColumns: 'repeat(3, 1fr)',
-gridTemplateRows: 'auto 500px auto'
-			}}>
-<div>
-<h1>Carebot</h1>
-</div>
-        <div style={{
-					gridColumn: '1 / 3',
-					fontSize: '2em'
-				}}>
-          <p>While social media can be a great way to connect, online harassment and trolls can sour Internet life; however, a new Twitter bot is trying to make self-care important part of your life online.</p>
-          <p>The bot, which you can find on Twitter @tinycarebot, offers gentle reminders to its followers to improve their health and well-being. Some examples of their encouraging messages are “breathe deeply please” and “please remember to look up from your screen.”</p>
-          <p>Made by @bookercode, inspired heavily by @tinycarebot.</p>
+      <div
+        style={{
+          maxWidth: 1000,
+          margin: "0 auto",
+          padding: 30
+        }}
+      >
+        <div
+          style={{
+            height: "80vh"
+          }}
+        >
+          <img
+            src="https://images.unsplash.com/photo-1517439270744-8d9287c2f8f8?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fcc4318e8227a0be97ad7fd1199d5624&auto=format&fit=crop&w=2584&q=80"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover"
+            }}
+          />
         </div>
-				<div style={{
-					gridColumn: '3 / -1', 
-				}}>
-					<img 
-						src="https://images.unsplash.com/photo-1519923834699-ef0b7cde4712?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f4db6887365e9fc430a311ba4250f44e&auto=format&fit=crop&w=1568&q=80" 
-						style={{
-							width: '100%',
-							height: '100%',
-objectFit:'cover'
-						}}/>
-				</div>
-				<div style={{
-					gridColumn: '1 / -1',
-					background: '#f1f1f1',
-					padding: 10
-				}}>
-					<h1>Submit</h1>
-					<form>
-<p>lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum</p>
-						<input type="text"/>
-					</form>
-				</div>
+        <div
+          style={{
+            fontSize: ".9em",
+            lineHeight: "1.4em",
+            fontFamily: "PT Serif",
+            maxWidth: 500,
+            margin: "60px auto",
+            textAlign: "justify"
+          }}
+        >
+          <p
+            style={{
+              marginTop: 0
+            }}
+          >
+            While social media can be a great way to connect, online harassment
+            and trolls can sour Internet life; however, a new Twitter bot is
+            trying to make self-care important part of your life online.
+          </p>
+          <p>
+            The bot, which you can find on Twitter @tinycarebot, offers gentle
+            reminders to its followers to improve their health and well-being.
+            Some examples of their encouraging messages are “breathe deeply
+            please” and “please remember to look up from your screen.”
+          </p>
+        </div>
+        <div
+          style={{
+            background: "white",
+            maxWidth: 500,
+            margin: "0 auto",
+            borderRadius: 5
+          }}
+        >
+          <form
+            style={{
+              display: "flex",
+              alignItems: "center"
+            }}
+          >
+            <PhoneInput
+              style={{
+                flex: 1,
+                paddingLeft: 20,
+                borderBottom: "none"
+              }}
+              country="GB"
+              placeholder="Enter phone number"
+              value={this.state.phone}
+              onChange={phone => this.setState({ phone })}
+            />
+            <input
+              type="submit"
+              style={{
+                background: "#98a390",
+                outline: "none",
+                border: "none",
+                width: 120,
+                borderTopRightRadius: 5,
+                borderBottomRightRadius: 5,
+                padding: 20,
+                cursor: "pointer"
+              }}
+            />
+          </form>
+        </div>
       </div>
     );
   }
