@@ -33,12 +33,14 @@ functions:
       - http: 
           method: post
           path: /code
+          cors: true
   createSubscriber:
     handler: handler.createSubscriber
     events: 
       - http: 
           method: post
           path: /subscribers
+          cors: true
 
 resources:
   Resources:

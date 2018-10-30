@@ -3,7 +3,10 @@ const { Client } = require('authy-client')
 const authy = new Client({ key: process.env.AUTHY_KEY })
 const AWS = require('aws-sdk')
 const dynamoDb = new AWS.DynamoDB.DocumentClient()
-const twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+const twilio = require('twilio')(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+)
 
 module.exports.createSubscriber = async (event, context) => {
   try {
@@ -12,28 +15,34 @@ module.exports.createSubscriber = async (event, context) => {
       .get({
         TableName: process.env.PHONE_NUMBERS_TABLE_NAME,
         Key: {
-          id: countryCode + phone
-        }
+          id: countryCode + phone,
+        },
       })
       .promise()
     if (Object.keys(item).length > 0) {
       return {
         statusCode: 409,
         body: '',
-        headers: {}
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
       }
     }
     await authy.startPhoneVerification({ countryCode, phone, via: 'sms' })
     return {
       statusCode: 200,
-      headers: {}
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
     }
   } catch (error) {
     console.log('error', error)
     return {
-      headers: {},
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
       statusCode: 500,
-      body: ''
+      body: '',
     }
   }
 }
@@ -47,50 +56,58 @@ module.exports.checkCode = async (event, context) => {
       Item: {
         id: countryCode + phone,
         phone,
-        countryCode
-      }
+        countryCode,
+      },
     }
     await dynamoDb.put(params).promise()
     return {
       statusCode: 201,
       body: '',
-      headers: {}
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
     }
   } catch (error) {
     console.error('error', error)
     return {
-      headers: {},
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
       statusCode: 500,
-      body: ''
+      body: '',
     }
   }
 }
 
 module.exports.sendSms = async (event, context) => {
   try {
-    const data = await dynamoDb.scan({
-      TableName: process.env.PHONE_NUMBERS_TABLE_NAME
-    }).promise()
+    const data = await dynamoDb
+      .scan({
+        TableName: process.env.PHONE_NUMBERS_TABLE_NAME,
+      })
+      .promise()
     const numbers = data.Items.map(item => `+${item.countryCode} ${item.phone}`)
     const messages = require('./messages')
     const body = sample(messages)
-    const promises = numbers.map(number => twilio.messages.create({
-      to: number,
-      from: process.env.TWILIO_MESSAGING_SERVICE_SID,
-      body
-    }))
+    const promises = numbers.map(number =>
+      twilio.messages.create({
+        to: number,
+        from: process.env.TWILIO_MESSAGING_SERVICE_SID,
+        body,
+      })
+    )
     await Promise.all(promises)
     return {
       headers: {},
       statusCode: 200,
-      body: 'success i guess'
+      body: 'success i guess',
     }
   } catch (error) {
     console.error('error', error)
     return {
       headers: {},
       statusCode: 500,
-      body: ''
+      body: '',
     }
   }
 }
@@ -100,6 +117,6 @@ module.exports.test = async (event, context) => {
   return {
     headers: {},
     statusCode: 200,
-    body: JSON.stringify(process.env)
+    body: JSON.stringify(process.env),
   }
 }

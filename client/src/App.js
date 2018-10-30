@@ -3,8 +3,10 @@
 import { Component } from 'react'
 import { injectGlobal } from 'emotion'
 import { jsx } from '@emotion/core'
-import Input from './Input'
+import PhoneNumberForm from './PhoneNumberForm'
+import CodeForm from './CodeForm'
 import 'react-phone-number-input/style.css'
+import { post } from 'axios'
 
 injectGlobal`
   body {
@@ -19,6 +21,37 @@ injectGlobal`
 class App extends Component {
   state = {
     phone: '',
+    countryCode: '',
+  }
+
+  onPhoneNumberSubmitted = async ({ phone, countryCode }) => {
+    try {
+      await post(
+        'https://aphlvvdrjk.execute-api.eu-west-2.amazonaws.com/dev/subscribers',
+        {
+          countryCode,
+          phone,
+        }
+      )
+      this.setState({ phone, countryCode })
+    } catch (error) {
+      console.error('error', error)
+    }
+  }
+
+  onCodeSubmitted = async ({ code }) => {
+    try {
+      await post(
+        'https://aphlvvdrjk.execute-api.eu-west-2.amazonaws.com/dev/code',
+        {
+          countryCode: this.state.countryCode,
+          phone: this.state.phone,
+          token: code,
+        }
+      )
+    } catch (error) {
+      console.error('error', error)
+    }
   }
 
   render() {
@@ -60,60 +93,25 @@ class App extends Component {
             <span>“please remember to look up from your screen.”</span>
           </p>
         </div>
-        <Input />
-        <br />
-        <div
-          css={{
-            maxWidth: 500,
-            margin: '0 auto',
-          }}
-        >
-          <p
-            css={{
-              textAlign: ' center',
-            }}
-          >
-            Confirmation code sent to +447899320957
-          </p>
+        {this.state.phone ? (
           <div
             css={{
-              background: 'white',
-              borderRadius: 5,
+              maxWidth: 500,
+              margin: '0 auto',
             }}
           >
-            <form
+            <p
               css={{
-                display: 'flex',
-                alignItems: 'center',
+                textAlign: ' center',
               }}
             >
-              <input
-                type="text"
-                placeholder="Enter confirmation code"
-                css={{
-                  fontFamily: 'system-ui',
-                  padding: 10,
-                  border: 'none',
-                  outline: 'none',
-                  flex: 1,
-                }}
-              />
-              <input
-                type="submit"
-                css={{
-                  background: '#98a390',
-                  outline: 'none',
-                  border: 'none',
-                  width: 120,
-                  borderTopRightRadius: 5,
-                  borderBottomRightRadius: 5,
-                  padding: 20,
-                  cursor: 'pointer',
-                }}
-              />
-            </form>
+              Confirmation code sent to {this.state.phone}
+            </p>
+            <CodeForm onSubmit={this.onCodeSubmitted} />
           </div>
-        </div>
+        ) : (
+          <PhoneNumberForm onSubmit={this.onPhoneNumberSubmitted} />
+        )}
       </div>
     )
   }
