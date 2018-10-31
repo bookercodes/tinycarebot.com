@@ -35,7 +35,12 @@ class App extends Component {
       )
       this.setState({ phone, countryCode })
     } catch (error) {
-      console.error('error', error)
+      const { response } = error
+      if (response.status === 409) {
+        alert("you're already in the databass")
+        return
+      }
+      console.error('error', error.response)
     }
   }
 
