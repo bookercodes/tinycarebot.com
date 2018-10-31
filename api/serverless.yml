@@ -19,23 +19,21 @@ provider:
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PHONE_NUMBERS_TABLE_NAME}"
 
 functions:
-  test:
-    handler: handler.test
   sendSms:
-    handler: handler.sendSms
+    handler: functions/sendSms.sendSms
     events:
       - schedule:
           rate: rate(1 minute)
           enabled: false
   checkCode: 
-    handler: handler.checkCode
+    handler: functions/checkCode.checkCode
     events: 
       - http: 
           method: post
           path: /code
           cors: true
   createSubscriber:
-    handler: handler.createSubscriber
+    handler: functions/createSubscriber.createSubscriber
     events: 
       - http: 
           method: post
