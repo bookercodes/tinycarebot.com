@@ -108,6 +108,7 @@ class App extends Component {
       return (
         <CodeForm
           onSubmit={this.onCodeSubmitted}
+          onValidationError={this.onError}
           loading={this.state.loading}
         />
       )
@@ -116,7 +117,7 @@ class App extends Component {
     return (
       <PhoneNumberForm
         onSubmit={this.onPhoneNumberSubmitted}
-        onError={this.onError}
+        onValidationError={this.onError}
         loading={this.state.loading}
       />
     )

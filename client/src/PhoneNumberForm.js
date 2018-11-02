@@ -16,7 +16,7 @@ export default class PhoneNumberForm extends Component {
   onSubmit = e => {
     e.preventDefault()
     if (!isValidPhoneNumber(this.state.number)) {
-      this.props.onError('Phone number is invalid')
+      this.props.onValidationError('Phone number is invalid')
     } else {
       const { countryCallingCode, nationalNumber } = parsePhoneNumber(
         this.state.number

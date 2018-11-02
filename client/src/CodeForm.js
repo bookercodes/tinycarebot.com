@@ -12,7 +12,11 @@ export default class PhoneNumberForm extends Component {
 
   onSubmit = e => {
     e.preventDefault()
-    this.props.onSubmit({ code: this.state.code })
+    if (!this.state.code.match(/^\d+$/)) {
+      this.props.onValidationError('code is invalid')
+    } else {
+      this.props.onSubmit({ code: this.state.code })
+    }
   }
 
   render() {
