@@ -7,6 +7,7 @@ import PhoneNumberForm from './PhoneNumberForm'
 import CodeForm from './CodeForm'
 import 'react-phone-number-input/style.css'
 import { post } from 'axios'
+import Alert from './Alert'
 
 injectGlobal`
   body {
@@ -21,15 +22,18 @@ injectGlobal`
 
 class App extends Component {
   state = {
+    alertText: '',
+    alertHexColor: '',
+
     phone: '',
     loading: false,
-    message: '',
+    submitted: false,
     countryCode: ''
   }
 
   onPhoneNumberSubmitted = async ({ phone, countryCode }) => {
     try {
-      this.setState({ loading: true, message: '' })
+      this.setState({ loading: true, alertText: '' })
       await post(
         'https://aphlvvdrjk.execute-api.eu-west-2.amazonaws.com/dev/subscribers',
         {
@@ -39,15 +43,15 @@ class App extends Component {
       )
       this.setState({
         phone,
-        countryCode,
-        message: `Confirmation code sent to ${phone}`
+        countryCode
       })
+      this.onSuccess(`Confirmation code sent to ${phone}`)
     } catch (error) {
       const { response } = error
       if (response.status === 409) {
-        this.setState({
-          message: `number +${countryCode}${phone} is already in the database`
-        })
+        this.onError(
+          `number +${countryCode}${phone} is already in the database`
+        )
         return
       }
       console.error('error', error.response)
@@ -56,9 +60,17 @@ class App extends Component {
     }
   }
 
-  onError = error => {
+  onError = alertText => {
     this.setState({
-      message: error
+      alertColor: '#F6AFB2',
+      alertText
+    })
+  }
+
+  onSuccess = alertText => {
+    this.setState({
+      alertText,
+      alertColor: '#d5f0ff'
     })
   }
 
@@ -74,20 +86,41 @@ class App extends Component {
         }
       )
       this.setState({
-        message: "Woohoo you're in the databass"
+        submitted: true
       })
+      this.onSuccess('u in he db')
     } catch (error) {
       const { response } = error
       if (response.status === 400) {
-        this.setState({
-          message: 'Invalid code'
-        })
+        this.onError('invalid code boiii')
         return
       }
       console.error('error', error)
     } finally {
       this.setState({ loading: false })
     }
+  }
+
+  renderForm = () => {
+    if (this.state.submitted) {
+      return null
+    }
+    if (this.state.phone) {
+      return (
+        <CodeForm
+          onSubmit={this.onCodeSubmitted}
+          loading={this.state.loading}
+        />
+      )
+    }
+
+    return (
+      <PhoneNumberForm
+        onSubmit={this.onPhoneNumberSubmitted}
+        onError={this.onError}
+        loading={this.state.loading}
+      />
+    )
   }
 
   render() {
@@ -129,37 +162,9 @@ class App extends Component {
             <span>“please remember to look up from your screen.”</span>
           </p>
         </div>
-        {this.state.message ? (
-          <div
-            css={{
-              maxWidth: 500,
-              padding: '2px 0',
-              background: '#F6AFB2',
-              borderRadius: 5,
-              margin: '10px auto'
-            }}
-          >
-            <p
-              css={{
-                textAlign: ' center'
-              }}
-            >
-              {this.state.message}
-            </p>{' '}
-          </div>
-        ) : null}
-        {this.state.phone ? (
-          <CodeForm
-            onSubmit={this.onCodeSubmitted}
-            loading={this.state.loading}
-          />
-        ) : (
-          <PhoneNumberForm
-            onSubmit={this.onPhoneNumberSubmitted}
-            onError={this.onError}
-            loading={this.state.loading}
-          />
-        )}
+
+        <Alert text={this.state.alertText} color={this.state.alertColor} />
+        {this.renderForm()}
       </div>
     )
   }
