@@ -3,10 +3,11 @@
 import { Component } from 'react'
 import { jsx } from '@emotion/core'
 import 'react-phone-number-input/style.css'
+import Loader from './Loader'
 
 export default class PhoneNumberForm extends Component {
   state = {
-    code: '',
+    code: ''
   }
 
   onSubmit = e => {
@@ -19,10 +20,12 @@ export default class PhoneNumberForm extends Component {
       <form
         onSubmit={this.onSubmit}
         css={{
-          background: 'white',
-          borderRadius: 5,
           display: 'flex',
           alignItems: 'center',
+          background: 'white',
+          maxWidth: 500,
+          margin: '0 auto',
+          borderRadius: 5
         }}
       >
         <input
@@ -31,14 +34,13 @@ export default class PhoneNumberForm extends Component {
           value={this.state.code}
           onChange={e => this.setState({ code: e.target.value })}
           css={{
-            fontFamily: 'system-ui',
             padding: 10,
             border: 'none',
             outline: 'none',
-            flex: 1,
+            flex: 1
           }}
         />
-        <input
+        <button
           type="submit"
           css={{
             background: '#98a390',
@@ -47,10 +49,24 @@ export default class PhoneNumberForm extends Component {
             width: 120,
             borderTopRightRadius: 5,
             borderBottomRightRadius: 5,
-            padding: 20,
+            height: 53,
             cursor: 'pointer',
+            '&:hover': {
+              background: '#72796c'
+            }
           }}
-        />
+        >
+          {this.props.loading ? (
+            <Loader
+              css={{
+                width: 25,
+                height: 'auto'
+              }}
+            />
+          ) : (
+            <span>Submit</span>
+          )}
+        </button>
       </form>
     )
   }

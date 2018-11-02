@@ -11,6 +11,7 @@ import { post } from 'axios'
 injectGlobal`
   body {
     background: #e6e3e2;
+    font-family: system-ui;
   }
 
   .react-phone-number-input__input {
@@ -21,41 +22,71 @@ injectGlobal`
 class App extends Component {
   state = {
     phone: '',
-    countryCode: '',
+    loading: false,
+    message: '',
+    countryCode: ''
   }
 
   onPhoneNumberSubmitted = async ({ phone, countryCode }) => {
     try {
+      this.setState({ loading: true, message: '' })
       await post(
         'https://aphlvvdrjk.execute-api.eu-west-2.amazonaws.com/dev/subscribers',
         {
           countryCode,
-          phone,
+          phone
         }
       )
-      this.setState({ phone, countryCode })
+      this.setState({
+        phone,
+        countryCode,
+        message: `Confirmation code sent to ${phone}`
+      })
     } catch (error) {
       const { response } = error
       if (response.status === 409) {
-        alert("you're already in the databass")
+        this.setState({
+          message: `number +${countryCode}${phone} is already in the database`
+        })
         return
       }
       console.error('error', error.response)
+    } finally {
+      this.setState({ loading: false })
     }
+  }
+
+  onError = error => {
+    this.setState({
+      message: error
+    })
   }
 
   onCodeSubmitted = async ({ code }) => {
     try {
+      this.setState({ loading: true })
       await post(
         'https://aphlvvdrjk.execute-api.eu-west-2.amazonaws.com/dev/code',
         {
           countryCode: this.state.countryCode,
           phone: this.state.phone,
-          token: code,
+          token: code
         }
       )
+      this.setState({
+        message: "Woohoo you're in the databass"
+      })
     } catch (error) {
+      const { response } = error
+      if (response.status === 400) {
+        this.setState({
+          message: 'Invalid code'
+        })
+        return
+      }
       console.error('error', error)
+    } finally {
+      this.setState({ loading: false })
     }
   }
 
@@ -65,7 +96,7 @@ class App extends Component {
         css={{
           maxWidth: 1000,
           margin: '0 auto',
-          padding: 30,
+          padding: 30
         }}
       >
         <img
@@ -73,7 +104,7 @@ class App extends Component {
           css={{
             width: '100%',
             height: '80vh',
-            objectFit: 'cover',
+            objectFit: 'cover'
           }}
         />
         <div
@@ -82,7 +113,7 @@ class App extends Component {
             fontFamily: 'PT Serif',
             maxWidth: 500,
             margin: '60px auto',
-            textAlign: 'justify',
+            textAlign: 'justify'
           }}
         >
           <p>
@@ -98,24 +129,36 @@ class App extends Component {
             <span>“please remember to look up from your screen.”</span>
           </p>
         </div>
-        {this.state.phone ? (
+        {this.state.message ? (
           <div
             css={{
               maxWidth: 500,
-              margin: '0 auto',
+              padding: '2px 0',
+              background: '#F6AFB2',
+              borderRadius: 5,
+              margin: '10px auto'
             }}
           >
             <p
               css={{
-                textAlign: ' center',
+                textAlign: ' center'
               }}
             >
-              Confirmation code sent to {this.state.phone}
-            </p>
-            <CodeForm onSubmit={this.onCodeSubmitted} />
+              {this.state.message}
+            </p>{' '}
           </div>
+        ) : null}
+        {this.state.phone ? (
+          <CodeForm
+            onSubmit={this.onCodeSubmitted}
+            loading={this.state.loading}
+          />
         ) : (
-          <PhoneNumberForm onSubmit={this.onPhoneNumberSubmitted} />
+          <PhoneNumberForm
+            onSubmit={this.onPhoneNumberSubmitted}
+            onError={this.onError}
+            loading={this.state.loading}
+          />
         )}
       </div>
     )

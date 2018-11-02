@@ -20,8 +20,8 @@ function save ({ countryCode, phone }) {
 }
 
 module.exports.checkCode = async (event, context) => {
-  const { phone, countryCode, token } = JSON.parse(event.body)
   try {
+    const { phone, countryCode, token } = JSON.parse(event.body)
     await verifyPhone({ phone, countryCode, token })
     await save({ phone, countryCode })
     return {
@@ -33,6 +33,15 @@ module.exports.checkCode = async (event, context) => {
     }
   } catch (error) {
     console.error('error', error)
+    if (error.name === 'ValidationFailedError') {
+      return {
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
+        statusCode: 400,
+        body: ''
+      }
+    }
     return {
       headers: {
         'Access-Control-Allow-Origin': '*'
