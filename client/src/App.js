@@ -150,16 +150,15 @@ class App extends Component {
           }}
         >
           <p>
-            While social media can be a great way to connect, online harassment
-            and trolls can sour Internet life; however, a new Twitter bot is
-            trying to make self-care important part of your life online.
+            While technology can be a great way to connect, online harassment
+            and trolls can sour Internet life. I made Carebot to try and make
+            self-care an important part of your life online.
           </p>
           <p>
-            The bot, which you can find on Twitter @tinycarebot, offers gentle
-            reminders to its followers to improve their health and well-being.
-            Some examples of their encouraging messages are{' '}
-            <span>“breathe deeply please”</span> and{' '}
-            <span>“please remember to look up from your screen.”</span>
+            The SMS bot offers gentle reminders to improve your health and
+            well-being. Some examples of it’s encouraging messages are{' '}
+            <em>“breathe deeply please”</em> and{' '}
+            <em>“please remember to look up from your screen”</em>
           </p>
         </div>
 
