@@ -23,7 +23,6 @@ injectGlobal`
 class App extends Component {
   state = {
     alertText: '',
-    alertHexColor: '',
 
     phone: '',
     loading: false,
