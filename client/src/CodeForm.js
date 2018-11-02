@@ -24,12 +24,16 @@ export default class PhoneNumberForm extends Component {
       <form
         onSubmit={this.onSubmit}
         css={{
+          font: 'inherit',
           display: 'flex',
           alignItems: 'center',
           background: 'white',
           maxWidth: 500,
           margin: '0 auto',
-          borderRadius: 5
+          borderRadius: 5,
+          '@media (max-width: 409px)': {
+            flexDirection: 'column'
+          }
         }}
       >
         <input
@@ -38,10 +42,14 @@ export default class PhoneNumberForm extends Component {
           value={this.state.code}
           onChange={e => this.setState({ code: e.target.value })}
           css={{
-            padding: 10,
+            padding: '16px 10px 16px 10px',
+            fontSize: '1em',
             border: 'none',
             outline: 'none',
-            flex: 1
+            flex: 1,
+            '@media (max-width: 409px)': {
+              width: '90%'
+            }
           }}
         />
         <button
@@ -57,6 +65,11 @@ export default class PhoneNumberForm extends Component {
             cursor: 'pointer',
             '&:hover': {
               background: '#72796c'
+            },
+            '@media (max-width: 409px)': {
+              width: '100%',
+              borderTopRightRadius: 0,
+              borderBottomLeftRadius: 5
             }
           }}
         >

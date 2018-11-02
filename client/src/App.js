@@ -12,6 +12,7 @@ import Alert from './Alert'
 injectGlobal`
   body {
     background: #e6e3e2;
+    margin: 0;
     font-family: system-ui;
   }
 
@@ -128,8 +129,7 @@ class App extends Component {
       <div
         css={{
           maxWidth: 1000,
-          margin: '0 auto',
-          padding: 30
+          margin: '0 auto'
         }}
       >
         <img
@@ -137,11 +137,16 @@ class App extends Component {
           css={{
             width: '100%',
             height: '80vh',
-            objectFit: 'cover'
+            objectFit: 'cover',
+            padding: 30,
+            '@media (max-width: 420px)': {
+              padding: 0
+            }
           }}
         />
         <div
           css={{
+            padding: '0px 30px',
             lineHeight: '1.4em',
             fontFamily: 'PT Serif',
             maxWidth: 500,
@@ -154,16 +159,19 @@ class App extends Component {
             and trolls can sour Internet life. I made Carebot to try and make
             self-care an important part of your life online.
           </p>
-          <p>
+          <p
+            css={{
+              marginBottom: 30
+            }}
+          >
             The SMS bot offers gentle reminders to improve your health and
             well-being. Some examples of it’s encouraging messages are{' '}
             <em>“breathe deeply please”</em> and{' '}
             <em>“please remember to look up from your screen”</em>
           </p>
+          <Alert text={this.state.alertText} color={this.state.alertColor} />
+          {this.renderForm()}
         </div>
-
-        <Alert text={this.state.alertText} color={this.state.alertColor} />
-        {this.renderForm()}
       </div>
     )
   }

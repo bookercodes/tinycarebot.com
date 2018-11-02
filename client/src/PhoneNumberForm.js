@@ -38,7 +38,10 @@ export default class PhoneNumberForm extends Component {
           background: 'white',
           maxWidth: 500,
           margin: '0 auto',
-          borderRadius: 5
+          borderRadius: 5,
+          '@media (max-width: 409px)': {
+            flexDirection: 'column'
+          }
         }}
       >
         <PhoneInput
@@ -46,7 +49,11 @@ export default class PhoneNumberForm extends Component {
           css={{
             flex: 1,
             paddingLeft: 20,
-            borderBottom: 'none'
+            borderBottom: 'none',
+            '@media (max-width: 409px)': {
+              width: '90%',
+              padding: 10
+            }
           }}
           country="GB"
           placeholder="Enter phone number"
@@ -66,6 +73,11 @@ export default class PhoneNumberForm extends Component {
             cursor: 'pointer',
             '&:hover': {
               background: '#72796c'
+            },
+            '@media (max-width: 409px)': {
+              width: '100%',
+              borderTopRightRadius: 0,
+              borderBottomLeftRadius: 5
             }
           }}
         >
