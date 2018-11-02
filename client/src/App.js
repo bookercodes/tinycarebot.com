@@ -45,12 +45,14 @@ class App extends Component {
         phone,
         countryCode
       })
-      this.onSuccess(`Confirmation code sent to ${phone}`)
+      this.onSuccess(
+        `A confirmation code has been sent to ${phone}. Please check and enter the code here.`
+      )
     } catch (error) {
       const { response } = error
       if (response.status === 409) {
         this.onError(
-          `number +${countryCode}${phone} is already in the database`
+          `Whops. The number +${countryCode}${phone} is already in our database. There's no need to submit it again.`
         )
         return
       }
@@ -88,11 +90,13 @@ class App extends Component {
       this.setState({
         submitted: true
       })
-      this.onSuccess('u in he db')
+      this.onSuccess(
+        "Amazing 🙌. You'll now receive encouraging messages once or twice a day. Unsubscribe at any time."
+      )
     } catch (error) {
       const { response } = error
       if (response.status === 400) {
-        this.onError('invalid code boiii')
+        this.onError('Confirmation code is invalid 😢')
         return
       }
       console.error('error', error)
