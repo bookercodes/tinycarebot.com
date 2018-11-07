@@ -9,7 +9,7 @@ import Loader from './Loader'
 
 export default class PhoneNumberForm extends Component {
   state = {
-    number: '+447899320957',
+    number: '',
     error: ''
   }
 
@@ -38,7 +38,6 @@ export default class PhoneNumberForm extends Component {
           display: 'flex',
           alignItems: 'center',
           background: 'white',
-          maxWidth: 500,
           margin: '0 auto',
           borderRadius: 5,
           '@media (max-width: 409px)': {
@@ -58,7 +57,7 @@ export default class PhoneNumberForm extends Component {
             }
           }}
           country="GB"
-          placeholder="Enter phone number"
+          placeholder="Your mobile phone number, please"
           value={this.state.number}
           onChange={number => this.setState({ number })}
         />
@@ -68,10 +67,11 @@ export default class PhoneNumberForm extends Component {
             background: '#98a390',
             outline: 'none',
             border: 'none',
-            width: 120,
+            width: 200,
             borderTopRightRadius: 5,
             borderBottomRightRadius: 5,
             height: 53,
+            color: 'white',
             cursor: 'pointer',
             '&:hover': {
               background: '#72796c'
@@ -91,7 +91,7 @@ export default class PhoneNumberForm extends Component {
               }}
             />
           ) : (
-            <span>Submit</span>
+            <span>Continue</span>
           )}
         </button>
       </form>
