@@ -86,7 +86,7 @@ class ReasonsList extends Component {
                   marginRight: 10
                 }}
               />
-              Stay Connected
+              Stay connected
             </span>
           </div>
           <p>
@@ -128,7 +128,7 @@ class ReasonsList extends Component {
                   marginRight: 10
                 }}
               />
-              Love Your Body
+              Love your body
             </span>
           </div>
           <p>
@@ -306,7 +306,7 @@ class App extends Component {
           >
             Subscribe and you’ll receive <strong>one</strong> friendly text
             message a day to help you focus on what matters most, disconnect
-            when needed, and create healthy habits.
+            when you need to, and create healthy habits.
           </p>
           <p
             css={{
