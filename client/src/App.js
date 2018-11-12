@@ -55,13 +55,13 @@ class ReasonsList extends Component {
                   marginRight: 10
                 }}
               />
-              Break the Twitch
+              Break the twitch
             </span>
           </div>
           <p>
-            Screen addiction is real and it’s detremental to our well-being.
-            Break the Twitch, spend more time stimulating your sesnses, spending
-            time in nature, listening to music.
+            When you get a notification, is your knee-jerk reaction to reach for
+            your phone? If so, it might be healthy to disconnect more often.
+            Tiny Care Bot reminds you how.
           </p>
         </li>
         <li
@@ -90,8 +90,20 @@ class ReasonsList extends Component {
             </span>
           </div>
           <p>
-            There has never been more ways to connect and yet, our generation is
-            the loneliness. Tiny Care reminds you to text back your friends.
+            There has never been more ways to connect online and yet,{' '}
+            <a
+              href="https://www.bbc.co.uk/bbcthree/article/5a5db873-bc83-4159-9006-57a4d689f902"
+              css={{
+                color: 'inherit',
+                textDecoration: 'none',
+                fontWeight: 600,
+                color: '#728860'
+              }}
+            >
+              research suggests our generation is the loneliness
+            </a>
+            . This tiny bot reminds you to engage with your friends in
+            meaningful ways.
           </p>
         </li>
         <li
@@ -120,9 +132,8 @@ class ReasonsList extends Component {
             </span>
           </div>
           <p>
-            The greatest wealth is good health. Trouble is, we take good health
-            for granted. Tiny Care Bot tries to help by reminding you to eat
-            nutritiously, check your posture and stretch.
+            Please, please take the time to eat nutritious food, check your
+            posture often, and stretch.{' '}
           </p>
         </li>
       </ul>
@@ -270,28 +281,42 @@ class App extends Component {
           </h2>
           <p
             css={{
+              marginBottom: 10
+            }}
+          >
+            While technology can be a great way to connect, screen addiction and
+            comparing ourselves to others can really take a toll on our
+            well-being. Tiny Care Bot offers gentle reminders to improve your
+            health online.{' '}
+          </p>
+          <p
+            css={{
               marginBottom: 70
             }}
           >
-            While technology can be a great way to connect, online harassment
-            and trolls can sour Internet life. Tiny Care Bot offers gentle
-            reminders to improve your health and well-being online. Subscribe
-            and you’ll receive encouraging text messages like{' '}
-            <em>"Get some fresh air please"</em>
-            and <em>"Please take a quick second to stay hydrated"</em> once a
-            day.
+            Subscribe and you’ll receive encouraging text messages like{' '}
+            <em>"Get some fresh air please"</em> and{' '}
+            <em>"Please take a quick second to stay hydrated"</em> once a day.{' '}
           </p>
           <ReasonsList />
+          <p
+            css={{
+              marginBottom: 10
+            }}
+          >
+            Subscribe and you’ll receive <strong>one</strong> friendly text
+            message a day to help you focus on what matters most, disconnect
+            when needed, and create healthy habits.
+          </p>
           <p
             css={{
               marginBottom: 80
             }}
           >
-            Subscribe and you'll receive <strong>one</strong> friendly text
-            message a day. Your privacy is very important to me and you can
-            subscribe at any time by responding with teh word{' '}
-            <em>"unsubscribe"</em>. Take care.
+            Your privacy is especially important here, and you can unsubscribe
+            at any time by responding with <em>"unsubscribe"</em>. Take care.
           </p>
+
           <Alert text={this.state.alertText} color={this.state.alertColor} />
           {this.renderForm()}
           <div
