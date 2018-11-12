@@ -59,8 +59,9 @@ class ReasonsList extends Component {
             </span>
           </div>
           <p>
-            Lorem ipsum dolor amet pok pok edison bulb echo park cold-pressed
-            selfies. Lorem ipsum dolor.
+            Screen addiction is real and it’s detremental to our well-being.
+            Break the Twitch, spend more time stimulating your sesnses, spending
+            time in nature, listening to music.
           </p>
         </li>
         <li
@@ -85,12 +86,12 @@ class ReasonsList extends Component {
                   marginRight: 10
                 }}
               />
-              Smile
+              Stay Connected
             </span>
           </div>
           <p>
-            Lorem ipsum dolor amet pok pok edison bulb echo park cold-pressed
-            selfies. Lorem ipsum dolor amet pok pok edison bulb echo park.
+            There has never been more ways to connect and yet, our generation is
+            the loneliness. Tiny Care reminds you to text back your friends.
           </p>
         </li>
         <li
@@ -109,18 +110,19 @@ class ReasonsList extends Component {
               }}
             >
               <img
-                src="/feedback.svg"
+                src="/friendly.svg"
                 css={{
                   width: 45,
                   marginRight: 10
                 }}
               />
-              Be present
+              Love Your Body
             </span>
           </div>
           <p>
-            Lorem ipsum dolor amet pok pok edison bulb echo park cold-pressed
-            selfies.
+            The greatest wealth is good health. Trouble is, we take good health
+            for granted. Tiny Care Bot tries to help by reminding you to eat
+            nutritiously, check your posture and stretch.
           </p>
         </li>
       </ul>
@@ -198,7 +200,7 @@ class App extends Component {
         submitted: true
       })
       this.onSuccess(
-        "Amazing 🙌. You'll now receive encouraging messages once or twice a day. Unsubscribe at any time."
+        "Amazing 🙌. You'll now receive encouraging messages once a day. Unsubscribe at any time."
       )
     } catch (error) {
       const { response } = error
@@ -238,17 +240,18 @@ class App extends Component {
   render() {
     return (
       <div css={{}}>
-        <img
-          src="https://images.unsplash.com/photo-1517439270744-8d9287c2f8f8?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=fcc4318e8227a0be97ad7fd1199d5624&auto=format&fit=crop&w=2584&q=80"
+        <video
+          autoPlay
+          loop
           css={{
             width: '100%',
             height: '80vh',
             objectFit: 'cover',
-            '@media (max-width: 420px)': {
-              padding: 0
-            }
+            marginBottom: 60
           }}
-        />
+        >
+          <source src="/banner.mp4" type="video/mp4" />
+        </video>
         <div
           css={{
             maxWidth: 700,
@@ -271,12 +274,11 @@ class App extends Component {
             }}
           >
             While technology can be a great way to connect, online harassment
-            and trolls can sour Internet life. I built Carebot to make self-care
-            an important part of your life online. Carebot offers gentle
-            reminders to improve your health and well-being. Subscribe and
-            you’ll receive encouraging messages like{' '}
-            <em>“Get some fresh air please”</em>
-            and <em>“Please take a quick second to stay hydrated”</em> once a
+            and trolls can sour Internet life. Tiny Care Bot offers gentle
+            reminders to improve your health and well-being online. Subscribe
+            and you’ll receive encouraging text messages like{' '}
+            <em>"Get some fresh air please"</em>
+            and <em>"Please take a quick second to stay hydrated"</em> once a
             day.
           </p>
           <ReasonsList />
@@ -285,37 +287,46 @@ class App extends Component {
               marginBottom: 80
             }}
           >
-            Lorem ipsum dolor amet helvetica polaroid plaid tbh, skateboard
-            street art man braid narwhal farm-to-table church-key. Kale chips
-            literally poutine polaroid farm-to-table sartorial jean shorts hot
-            chicken knausgaard bespoke drinking vinegar lo-fi.{' '}
+            Subscribe and you'll receive <strong>one</strong> friendly text
+            message a day. Your privacy is very important to me and you can
+            subscribe at any time by responding with teh word{' '}
+            <em>"unsubscribe"</em>. Take care.
           </p>
           <Alert text={this.state.alertText} color={this.state.alertColor} />
           {this.renderForm()}
-          <p
+          <div
             css={{
-              marginTop: 120,
               display: 'flex',
-              alignItems: 'center',
-              margin: '0 auto',
-              background: 'red',
-              width: 'auto'
+              justifyContent: 'center',
+              padding: '80px 0 0 0'
             }}
           >
-            <span
+            <div
               css={{
-                marginRight: 7
+                display: 'flex',
+                alignItems: 'center',
+                margin: '0 auto',
+                opacity: 0.3,
+                '&:hover': {
+                  opacity: 1
+                }
               }}
             >
-              Powered by
-            </span>
-            <img
-              src="/Twilio.svg"
-              css={{
-                height: 28
-              }}
-            />
-          </p>
+              <span
+                css={{
+                  marginRight: 5
+                }}
+              >
+                Text messages sent using
+              </span>
+              <img
+                src="/Twilio.svg"
+                css={{
+                  height: 22
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     )
