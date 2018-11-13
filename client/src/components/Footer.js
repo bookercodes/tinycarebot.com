@@ -12,12 +12,15 @@ class Footer extends Component {
           padding: '80px 0 0 0'
         }}
       >
-        <div
+        <a
+          href="https://twilio.com"
           css={{
             display: 'flex',
             alignItems: 'center',
             margin: '0 auto',
             opacity: 0.3,
+            color: 'inherit',
+            textDecoration: 'none',
             '&:hover': {
               opacity: 1
             }
@@ -37,7 +40,7 @@ class Footer extends Component {
               height: 22
             }}
           />
-        </div>
+        </a>
       </div>
     )
   }
