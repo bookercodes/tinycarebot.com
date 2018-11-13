@@ -251,20 +251,25 @@ class App extends Component {
   render() {
     return (
       <div css={{}}>
-        <video
-          autoPlay
-          loop
-          muted
+        <div
           css={{
-            width: '100%',
-            height: '70vh',
-            objectFit: 'cover',
-            marginBottom: 60,
-            background: 'red'
+            overflow: 'hidden'
           }}
         >
-          <source src="/banner.mp4" type="video/mp4" />
-        </video>
+          <video
+            autoPlay
+            loop
+            muted
+            css={{
+              width: '100%',
+              height: '80vh',
+              objectFit: 'cover'
+              // marginBottom: 60,
+            }}
+          >
+            <source src="/banner.mp4" type="video/mp4" />
+          </video>
+        </div>
         <div
           css={{
             maxWidth: 700,
