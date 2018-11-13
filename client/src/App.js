@@ -254,11 +254,13 @@ class App extends Component {
         <video
           autoPlay
           loop
+          muted
           css={{
             width: '100%',
-            height: '80vh',
+            height: '70vh',
             objectFit: 'cover',
-            marginBottom: 60
+            marginBottom: 60,
+            background: 'red'
           }}
         >
           <source src="/banner.mp4" type="video/mp4" />
