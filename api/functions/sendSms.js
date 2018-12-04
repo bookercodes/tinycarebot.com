@@ -15,13 +15,7 @@ module.exports.sendSms = async (event, context) => {
       .promise()
     const numbers = data.Items.map(item => `+${item.countryCode} ${item.phone}`)
     const messages = [
-      '🍜: remember to take a moment to eat something if you have been forgetting to eat please',
-      '🙌🏼: please take time to wiggle your fingers and to',
-      '🌳: dont forget to rest your eyes please',
-      '🎵: please dont forget to take a bit of time to play some music that helps you feel peaceful',
-      '🚰: please remember to take a second to go get a sip of water',
-      '💚: text back your friends please',
-      '💟: please dont forget to say hi to a friend'
+      '🌱: please remember to take a quick moment to rest your eyes'
     ]
     const body = sample(messages)
     const promises = numbers.map(number =>

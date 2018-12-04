@@ -1,27 +1,21 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+import React from 'react'
+import { css } from 'emotion'
 
-export default ({ text, color }) => {
-  if (text) {
-    return (
-      <div
-        css={{
-          maxWidth: 500,
-          padding: '2px 0',
-          background: color,
-          borderRadius: 5,
-          margin: '10px auto'
-        }}
-      >
-        <p
-          css={{
-            textAlign: ' center'
-          }}
-        >
-          {text}
-        </p>
-      </div>
-    )
-  }
-  return null
-}
+export default ({ text, color }) => (
+  <div
+    className={css({
+      padding: 2,
+      background: color,
+      borderRadius: 5,
+      margin: '10px auto'
+    })}
+  >
+    <p
+      className={css({
+        textAlign: ' center'
+      })}
+    >
+      {text}
+    </p>
+  </div>
+)

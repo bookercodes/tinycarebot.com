@@ -1,11 +1,9 @@
-/** @jsx jsx */
-
-import { Component } from 'react'
-import { jsx } from '@emotion/core'
+import React, { Component } from 'react'
+import { css } from 'emotion'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
-import 'react-phone-number-input/style.css'
 import { parsePhoneNumber } from 'libphonenumber-js'
 import Loader from './Loader'
+import 'react-phone-number-input/style.css'
 
 export default class PhoneNumberForm extends Component {
   state = {
@@ -34,7 +32,7 @@ export default class PhoneNumberForm extends Component {
     return (
       <form
         onSubmit={this.onSubmit}
-        css={{
+        className={css({
           display: 'flex',
           alignItems: 'center',
           background: 'white',
@@ -43,11 +41,11 @@ export default class PhoneNumberForm extends Component {
           '@media (max-width: 409px)': {
             flexDirection: 'column'
           }
-        }}
+        })}
       >
         <PhoneInput
           disabled={this.props.loading}
-          css={{
+          className={css({
             flex: 1,
             paddingLeft: 20,
             borderBottom: 'none',
@@ -55,7 +53,7 @@ export default class PhoneNumberForm extends Component {
               width: '90%',
               padding: 10
             }
-          }}
+          })}
           country="GB"
           placeholder="Your mobile phone number, please"
           value={this.state.number}
@@ -63,7 +61,7 @@ export default class PhoneNumberForm extends Component {
         />
         <button
           type="submit"
-          css={{
+          className={css({
             background: '#98a390',
             outline: 'none',
             border: 'none',
@@ -81,14 +79,14 @@ export default class PhoneNumberForm extends Component {
               borderTopRightRadius: 0,
               borderBottomLeftRadius: 5
             }
-          }}
+          })}
         >
           {this.props.loading ? (
             <Loader
-              css={{
+              className={css({
                 width: 25,
                 height: 'auto'
-              }}
+              })}
             />
           ) : (
             <span>Continue</span>
